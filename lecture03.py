@@ -108,6 +108,28 @@ for _ in range(7):
 
 print(sample)
 
+
+# グラフの描画
+import matplotlib.pyplot as plt
+
+# 新しい図を作成
+plt.figure()
+
+# 折れ線グラフをプロット
+plt.plot(range(1, 8), sample, marker='o')  # 7つの点があるため、1から8までの範囲を使用
+
+# グラフのタイトルと軸ラベルを追加
+plt.title('Average Packet Delay over Multiple Simulations')
+plt.xlabel('Simulation Run')
+plt.ylabel('Average Delay (s)')
+
+# グリッドを追加
+plt.grid(True)
+
+# グラフを表示
+plt.tight_layout()
+plt.savefig('graph.png')  # PNG形式でグラフを保存
+
 ####################################################################
 
 
