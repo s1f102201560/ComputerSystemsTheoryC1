@@ -56,11 +56,14 @@ def D_i(A_lst, S_lst):
 
 # パケットiの退去時刻のリストで最大のもの(これをメインで使う)
 def max_D_i(D_lst, A_lst, S_lst):
-    length = len(D_lst) # len(A_lst)でもlen(S_lst)でも可
+    length = len(D_lst)  # len(A_lst)でもlen(S_lst)でも可
     m_D_lst = []
-    m_D = -1
+    m_D = 0  # システムが何も処理していない状態での初期値。必要に応じて適切な値に調整してください。
     for i in range(length):
-        m_D = max(D_lst[i-1], A_lst[i]) + S_lst[i]
+        if i == 0:
+            m_D = A_lst[i] + S_lst[i]  # 最初のパケットの退去時刻
+        else:
+            m_D = max(m_D, A_lst[i]) + S_lst[i]  # 前のパケットの退去時刻と現在のパケットの到着時刻を比較
         m_D_lst.append(m_D)
     return m_D_lst
 
@@ -82,9 +85,9 @@ np.random.seed(321)
 sample = []
 for _ in range(7):
 
-    # 平均到500(bytes)(8*500(bit))の指数分布に従うパケット長を10000個生成
+    # 平均到500(bytes))の指数分布に従うパケット長を10000個生成
     # パケットのパケット長リスト
-    L_lst = np.random.exponential(8*500, 10000)
+    L_lst = np.random.exponential(500, 10000)
 
     # 平均到着パケット数が1200(pps)になるようにパケットを10000個生成
     # パケットの到着時間リスト
@@ -109,26 +112,26 @@ for _ in range(7):
 print(sample)
 
 
-# グラフの描画
-import matplotlib.pyplot as plt
+# # グラフの描画
+# import matplotlib.pyplot as plt
 
-# 新しい図を作成
-plt.figure()
+# # 新しい図を作成
+# plt.figure()
 
-# 折れ線グラフをプロット
-plt.plot(range(1, 8), sample, marker='o')  # 7つの点があるため、1から8までの範囲を使用
+# # 折れ線グラフをプロット
+# plt.plot(range(1, 8), sample, marker='o')  # 7つの点があるため、1から8までの範囲を使用
 
-# グラフのタイトルと軸ラベルを追加
-plt.title('Average Packet Delay over Multiple Simulations')
-plt.xlabel('Simulation Run')
-plt.ylabel('Average Delay (s)')
+# # グラフのタイトルと軸ラベルを追加
+# plt.title('Average Packet Delay over Multiple Simulations')
+# plt.xlabel('Simulation Run')
+# plt.ylabel('Average Delay (s)')
 
-# グリッドを追加
-plt.grid(True)
+# # グリッドを追加
+# plt.grid(True)
 
-# グラフを表示
-plt.tight_layout()
-plt.savefig('graph.png')  # PNG形式でグラフを保存
+# # グラフを表示
+# plt.tight_layout()
+# plt.savefig('graph.png')  # PNG形式でグラフを保存
 
 ####################################################################
 
